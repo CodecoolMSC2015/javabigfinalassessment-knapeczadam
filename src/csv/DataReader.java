@@ -13,7 +13,7 @@ public abstract class DataReader
 	public String		searchCriteria;
 	public SearchType	searchType;
 
-	public abstract Set<Person> getPerson(String searchCriteria, SearchType searchType);
+	public abstract Set<Person> getPerson();
 
 	public abstract void setSearchCriteria(String searchCriteria);
 

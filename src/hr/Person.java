@@ -58,6 +58,53 @@ public class Person
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return 0;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		if (obj == null)
+		{
+			return false;
+		}
+		if (getClass() != obj.getClass())
+		{
+			return false;
+		}
+		Person other = (Person) obj;
+		if (email == null)
+		{
+			if (other.email != null)
+			{
+				return false;
+			}
+		}
+		else if (!email.equals(other.email))
+		{
+			return false;
+		}
+		if (name == null)
+		{
+			if (other.name != null)
+			{
+				return false;
+			}
+		}
+		else if (!name.equals(other.name))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	@Override
 	public String toString()
 	{
 		return "Person [name=" + name + ", email=" + email + ", skillset=" + skillset + "]";

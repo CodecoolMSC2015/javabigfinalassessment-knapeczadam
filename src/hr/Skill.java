@@ -10,11 +10,11 @@ public class Skill
 	private String	description;
 	private double	rate;
 
-	public Skill(String name, String description)
+	public Skill(String name, String description, double rate)
 	{
-		super();
 		this.name = name;
 		this.description = description;
+		this.rate = rate;
 	}
 
 	public String getName()
