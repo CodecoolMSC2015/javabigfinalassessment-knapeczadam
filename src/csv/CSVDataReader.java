@@ -2,8 +2,10 @@ package csv;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -30,7 +32,13 @@ public class CSVDataReader extends DataReader
 	{
 		Set<Person> persons = new HashSet<Person>();
 		Map<String, Person> personsMap = new HashMap<String, Person>();
+
 		String[] searchCriteria = this.searchCriteria.split(";");
+		Set<String> searchCriteriaSet = new HashSet<String>();
+		for (String searchCriteriaElement : searchCriteria)
+		{
+			searchCriteriaSet.add(searchCriteriaElement);
+		}
 
 		try
 		{
@@ -92,16 +100,35 @@ public class CSVDataReader extends DataReader
 			}
 			for (Map.Entry<String, Person> entry : personsMap.entrySet())
 			{
+
+				Set<String> personSkillSet = new HashSet<String>();
+
+				List<Skill> skillList = new ArrayList<Skill>();
+				skillList.add((Skill) entry.getValue().getSkillset());
+				for (Skill skill : skillList)
+				{
+					personSkillSet.add(skill.getName());
+				}
 				if (searchType instanceof SearchType && searchType == SearchType.Mandatory)
 				{
+					if (personSkillSet.equals(searchCriteriaSet))
+					{
+						persons.add(entry.getValue());
+					}
 
 				}
 				if (searchType instanceof SearchType && searchType == SearchType.Optional)
 				{
-
+					for (String searchedSkill : searchCriteriaSet)
+					{
+						if (personSkillSet.contains(searchedSkill))
+						{
+							persons.add(entry.getValue());
+							break;
+						}
+					}
 				}
 			}
-
 		}
 		catch (FileNotFoundException e)
 		{
