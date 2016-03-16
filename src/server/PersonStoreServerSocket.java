@@ -9,6 +9,10 @@ import csv.CSVDataReader;
 import csv.DataReader;
 import csv.SearchType;
 
+/**
+ * @author Knapecz Adam
+ *
+ */
 public class PersonStoreServerSocket
 {
 	DataReader store;

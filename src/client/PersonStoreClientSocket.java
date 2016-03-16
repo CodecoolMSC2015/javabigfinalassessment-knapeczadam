@@ -8,6 +8,10 @@ import java.util.Set;
 import csv.SearchType;
 import hr.Person;
 
+/**
+ * @author Knapecz Adam
+ *
+ */
 public class PersonStoreClientSocket
 {
 	private Set<Person> goodPersons;
