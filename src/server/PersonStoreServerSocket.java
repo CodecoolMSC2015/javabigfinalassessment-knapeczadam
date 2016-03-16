@@ -27,9 +27,9 @@ public class PersonStoreServerSocket
 			{
 				if (ois.read() != 0)
 				{
-					Object object = ois.readObject();
 					String searchCriteria = ois.readUTF();
 					store.setSearchCriteria(searchCriteria);
+					Object object = ois.readObject();
 					if (object instanceof SearchType)
 					{
 						SearchType searchType = (SearchType) object;
