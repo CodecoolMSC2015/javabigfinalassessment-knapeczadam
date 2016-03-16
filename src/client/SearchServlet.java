@@ -2,8 +2,7 @@ package client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import csv.SearchType;
+import hr.Person;
 
 /**
  * Servlet implementation class SearchServlet
@@ -22,25 +22,34 @@ import csv.SearchType;
  */
 public class SearchServlet extends HttpServlet
 {
+	private List<Person>	goodPersons;
+	private String			searchCriteria;
+	private SearchType		searchType;
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String searchCriteria = request.getParameter("searchCriteria");
-		SearchType searchType = SearchType.valueOf(request.getParameter("searchType"));
+
+		String newSearchCriteria = request.getParameter("searchCriteria");
+		SearchType newSearchType = SearchType.valueOf(request.getParameter("searchType"));
+
 		HttpSession session = request.getSession(false);
+
 		if (session != null)
 		{
-			Map<String, SearchType> goodPersons = (Map<String, SearchType>) session.getAttribute("goodPersons");
-			goodPersons.put(searchCriteria, searchType);
-			session.setAttribute("goodPersons", goodPersons);
+			if (searchCriteria.equals(newSearchCriteria) && searchType.equals(newSearchType))
+			{
+				List<Person> goodPersons = (List<Person>) session.getAttribute("goodPersons");
+			}
+			searchCriteria = newSearchCriteria;
+			searchType = newSearchType;
 		}
 		else
 		{
-			session = request.getSession();
-			Map<String, SearchType> goodPersons = new HashMap<String, SearchType>();
+			PersonStoreClientSocket client = new PersonStoreClientSocket(searchCriteria, searchType);
+			List<Person> goodPersons = (List<Person>) client.getGoodPersons();
 			session.setAttribute("goodPersons", goodPersons);
 		}
 
